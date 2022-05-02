@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ankeetmaini/react-infinite-scroll-component.git"
+    "url": "git+https://github.com/Cadienvan/react-infinite-scroll-component.git"
   },
   "keywords": [
     "react",
@@ -32,12 +32,12 @@
     "component",
     "react-component"
   ],
-  "author": "Ankeet Maini <ankeet.maini@gmail.com>",
+  "author": "Michael Di Prisco <diprisco.michael@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ankeetmaini/react-infinite-scroll-component/issues"
+    "url": "https://github.com/Cadienvan/react-infinite-scroll-component/issues"
   },
-  "homepage": "https://github.com/ankeetmaini/react-infinite-scroll-component#readme",
+  "homepage": "https://github.com/Cadienvan/react-infinite-scroll-component#readme",
   "peerDependencies": {
     "react": ">=16.0.0"
   },
