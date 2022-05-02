@@ -300,7 +300,6 @@ export default class InfiniteScroll extends Component<Props, State> {
     target: HTMLElement,
     scrollThreshold: string | number = 0.8
   ) {
-    console.log('isElementAtRight?');
     const clientWidth =
       target === document.body || target === document.documentElement
         ? window.screen.availWidth
