@@ -78,11 +78,6 @@
   "dependencies": {
     "throttle-debounce": "^2.1.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run ts-check && lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,css,json,md}": [
       "prettier --write",

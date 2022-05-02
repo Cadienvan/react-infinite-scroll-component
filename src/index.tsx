@@ -15,6 +15,7 @@ export interface Props {
   scrollableTarget?: ReactNode;
   hasChildren?: boolean;
   inverse?: boolean;
+  horizontal?: boolean;
   pullDownToRefresh?: boolean;
   pullDownToRefreshContent?: ReactNode;
   releaseToRefreshContent?: ReactNode;
@@ -295,6 +296,30 @@ export default class InfiniteScroll extends Component<Props, State> {
     );
   }
 
+  isElementAtRight(
+    target: HTMLElement,
+    scrollThreshold: string | number = 0.8
+  ) {
+    console.log('isElementAtRight?');
+    const clientWidth =
+      target === document.body || target === document.documentElement
+        ? window.screen.availWidth
+        : target.clientWidth;
+
+    const threshold = parseThreshold(scrollThreshold);
+
+    if (threshold.unit === ThresholdUnits.Pixel) {
+      return (
+        target.scrollLeft + clientWidth >= target.scrollWidth - threshold.value
+      );
+    }
+
+    return (
+      target.scrollLeft + clientWidth >=
+      (threshold.value / 100) * target.scrollWidth
+    );
+  }
+
   onScrollListener = (event: MouseEvent) => {
     if (typeof this.props.onScroll === 'function') {
       // Execute this callback in next tick so that it does not affect the
@@ -305,7 +330,9 @@ export default class InfiniteScroll extends Component<Props, State> {
     const target =
       this.props.height || this._scrollableNode
         ? (event.target as HTMLElement)
-        : document.documentElement.scrollTop
+        : (this.props.horizontal
+          ? document.documentElement.scrollLeft
+          : document.documentElement.scrollTop)
         ? document.documentElement
         : document.body;
 
@@ -313,9 +340,13 @@ export default class InfiniteScroll extends Component<Props, State> {
     // prevents multiple triggers.
     if (this.actionTriggered) return;
 
-    const atBottom = this.props.inverse
+    const atBottom = this.props.horizontal
+      ? this.isElementAtRight(target, this.props.scrollThreshold)
+      : this.props.inverse
       ? this.isElementAtTop(target, this.props.scrollThreshold)
       : this.isElementAtBottom(target, this.props.scrollThreshold);
+
+    //const atBottom = this.isElementAtRight(target, this.props.scrollThreshold);
 
     // call the `next` function in the props to trigger the next data fetch
     if (atBottom && this.props.hasMore) {
@@ -324,7 +355,7 @@ export default class InfiniteScroll extends Component<Props, State> {
       this.props.next && this.props.next();
     }
 
-    this.lastScrollTop = target.scrollTop;
+    this.lastScrollTop = target.scrollLeft;
   };
 
   render() {
